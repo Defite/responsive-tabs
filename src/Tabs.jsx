@@ -61,7 +61,7 @@ const Tabs = (props) => {
     }
 
     return (
-      <div className="more-list" ref={tooltipRef}>
+      <div className="more-list-popup" ref={tooltipRef}>
         {props.children.slice(hiddenTabsIndex).map((item, index) => {
           return (
             <li className="more-list-item" key={`more-item-${index}`}>

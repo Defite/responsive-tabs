@@ -46,7 +46,7 @@ a:hover {
   cursor: pointer;
 }
 
-.more-list {
+.more-list-popup {
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
     0 0 0 1px rgba(10, 10, 10, 0.02);
 
@@ -58,6 +58,10 @@ a:hover {
   right: 0;
 }
 
+.more-list-popup .tab {
+  border: none;
+}
+
 .more-list-item {
   display: block;
   margin: 10px 0;
@@ -66,4 +70,33 @@ a:hover {
 .container {
   width: 100%;
   margin: 20px auto;
+}
+
+.tab {
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 24px;
+  padding: 5px 12px;
+  border: 2px solid transparent;
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tab a {
+  color: #000;
+}
+
+.tab:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.tab:hover,
+.tab:hover a {
+  text-decoration: none;
+}
+
+.tab.active {
+  border-color: #4c8ebc;
+  font-weight: 700;
 }
