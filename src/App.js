@@ -1,5 +1,6 @@
 import React from "react";
 import Tabs from "./Tabs";
+import Tab from "./Tab";
 import "./styles.css";
 
 const tabs = [
@@ -42,7 +43,11 @@ export default function App() {
     <div className="App">
       <h1>Hello Tabs</h1>
       <div className="container">
-        <Tabs items={tabs} />
+        <Tabs>
+          {tabs.map((item, index) => (
+            <Tab key={`tab-index-${index}`} {...item} />
+          ))}
+        </Tabs>
       </div>
     </div>
   );

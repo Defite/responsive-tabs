@@ -5,7 +5,6 @@ import React, {
   useLayoutEffect,
   useRef
 } from "react";
-import Tab from "./Tab";
 
 // Hook
 function useOnClickOutside(triggerRef, tooltipRef, handler) {
@@ -49,7 +48,7 @@ const Tabs = (props) => {
   const tooltipRef = useRef(null);
   const childRefs = [];
 
-  const tabsItemsLength = props.items.length;
+  const tabsItemsLength = props.children.length;
   const [hiddenTabsIndex, setTabs] = useState(tabsItemsLength);
   const [popupVisible, setVisibility] = useState(false);
 
@@ -63,10 +62,10 @@ const Tabs = (props) => {
 
     return (
       <div className="more-list" ref={tooltipRef}>
-        {props.items.slice(hiddenTabsIndex).map((item, index) => {
+        {props.children.slice(hiddenTabsIndex).map((item, index) => {
           return (
             <li className="more-list-item" key={`more-item-${index}`}>
-              <a href={item.url}>{item.text}</a>
+              {item}
             </li>
           );
         })}
@@ -164,16 +163,14 @@ const Tabs = (props) => {
   return (
     <nav className="tabs">
       <ul className={tabsListCN} ref={parentRef}>
-        {props.items.slice(0, hiddenTabsIndex).map((item, index) => {
-          return (
-            <Tab
-              id={index}
-              forwardRef={tabsRef}
-              key={`tab-index-${index}`}
-              {...item}
-            />
-          );
-        })}
+        {React.Children.map(
+          props.children.slice(0, hiddenTabsIndex),
+          (child) => {
+            return React.cloneElement(child, {
+              forwardRef: tabsRef
+            });
+          }
+        )}
         {showMoreBtn()}
       </ul>
     </nav>
