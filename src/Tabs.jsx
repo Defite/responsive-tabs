@@ -46,7 +46,7 @@ const Tabs = (props) => {
   const parentRef = useRef(null);
   const moreBtnRef = useRef(null);
   const tooltipRef = useRef(null);
-  const childRefs = [];
+  const childRefs = useRef([]);
 
   const tabsItemsLength = props.children.length;
   const [hiddenTabsIndex, setTabs] = useState(tabsItemsLength);
@@ -127,11 +127,11 @@ const Tabs = (props) => {
   );
 
   const tabsRef = useCallback(
-    (node) => {
+    (node, index) => {
       if (node !== null) {
-        childRefs.push({
+        childRefs.current[index] = {
           offsetWidth: node.offsetWidth
-        });
+        };
       }
     },
     [childRefs]
@@ -139,7 +139,7 @@ const Tabs = (props) => {
 
   // Effects section
   const makeBadThings = useCallback(() => {
-    getOverflowedItems(childRefs);
+    getOverflowedItems(childRefs.current);
   }, [getOverflowedItems]);
 
   useLayoutEffect(() => {
@@ -150,7 +150,7 @@ const Tabs = (props) => {
   useOnClickOutside(moreBtnRef, tooltipRef, () => setVisibility(false));
 
   const handleWindowResize = useCallback(() => {
-    getOverflowedItems(childRefs);
+    getOverflowedItems(childRefs.current);
   }, [getOverflowedItems]);
 
   useEffect(() => {
@@ -160,14 +160,15 @@ const Tabs = (props) => {
 
   const tabsListCN = popupVisible ? "tabs-list show" : "tabs-list";
 
+  // @NOTE https://github.com/facebook/react/issues/8873#issuecomment-275423780
   return (
     <nav className="tabs">
       <ul className={tabsListCN} ref={parentRef}>
         {React.Children.map(
           props.children.slice(0, hiddenTabsIndex),
-          (child) => {
+          (child, index) => {
             return React.cloneElement(child, {
-              forwardRef: tabsRef
+              forwardRef: (node) => tabsRef(node, index)
             });
           }
         )}
