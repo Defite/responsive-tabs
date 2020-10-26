@@ -6,7 +6,8 @@ import "./styles.css";
 const tabs = [
   {
     url: "#",
-    text: "Все"
+    text: "Все",
+    active: true
   },
   {
     url: "#",
